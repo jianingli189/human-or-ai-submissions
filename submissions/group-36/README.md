@@ -1,5 +1,7 @@
 # Human or AI? · Group 36
 
+Kaggle team name: **group 36**. Python 3.13 was used for the reconstructed stack.
+
 The team retained Abishek’s **stack_nbsvm_stylo.csv**, the highest public AUROC in the team’s submission history (**0.92847**). Its original training implementation and submitted CSV are unavailable in this branch. Its validation and private AUROC are unreported.
 
 Abishek’s available comparison notebook evaluates a five-model ensemble. Four logistic classifiers use Naive Bayes weights on different text representations. A fifth classifier uses gradient boosting on 67 writing-style features. In the saved experiment, the four text models each receive weight 1 and the style model receives weight 3. Their weighted average ranks passages by the likelihood of AI authorship.
@@ -39,3 +41,24 @@ Place the competition files **train.csv**, **test.csv** and **sample_submission.
 [Experiment and reproduction instructions](abi_unlabeled/README.md). Adding 3,000 unlabeled passages to vocabulary fitting in the reconstructed stack changed fixed-validation AUROC from **0.988825 to 0.988813**. [Supervised reconstruction and separate SVM control](group36_evidence/) · [Paired validation comparison](abi_unlabeled/results/comparison.json).
 
 The team reports **0.92117 public AUROC** for the unlabeled-vocabulary submission. The retained historical submission has public AUROC 0.92847.
+
+
+## Run the reconstructed stack
+
+From the team directory, place the course CSVs in data/ and use a Python 3.13 environment:
+
+~~~sh
+python -m pip install -r group36_evidence/requirements.txt
+python group36_evidence/rebuild.py
+python group36_evidence/summarize.py
+python abi_unlabeled/experiment.py
+python abi_unlabeled/compare.py
+python abi_unlabeled/experiment.py --submission
+cp abi_unlabeled/results/stack_unlabeled.csv submission.csv
+~~~
+
+The final two commands produce the unlabeled-vocabulary candidate (reported public AUROC 0.92117). The split and cross-validation seed is 42. The historical 0.92847 upload lacks a verified original generation command.
+
+## AI assistance
+
+Jianing used Codex for implementation, debugging, experiment execution, interpreting results, and report editing. She edited and ran notebooks and submitted predictions. The team reported leaderboard scores and chose its submission. Saved predictions and article IDs were used to check validation metrics and submission order. See report Q6.3.
