@@ -14,19 +14,23 @@ Abishek’s available comparison notebook evaluates a five-model ensemble. Four 
 
 All three approaches use the same stratified partition of 8,000 training and 2,000 validation passages, with seed 42. The public scores in [the submission history](team_results/public_scores.csv) are keyed by filename. Jianing’s binary TF-IDF SVM scored 0.90977 on the public leaderboard and 0.977117 on validation.
 
-## Reproduce Abishek's Ensemble Model
+## Reproduce the selected probability ensemble
 
-From the directory containing this README, create an environment and open the notebook:
+From the team directory (`submissions/group-36/`), put the course files `train.csv`, `test.csv` and `sample_submission.csv` in `abishek_ensemble/data/`. Set up a Python 3.13 environment:
 
-~~~sh
-cd abishek_ensemble
-python -m venv .venv
+```bash
+python3.13 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
-jupyter lab ensemble_model.ipynb
-~~~
+python -m pip install -r abishek_ensemble/requirements.txt
+```
 
-Place the competition files **train.csv**, **test.csv** and **sample_submission.csv** in the **data/** directory under **abishek_ensemble/**. Select the Python kernel from this environment and run all cells. The default probability average setting (global variable RANK_AVG=False) reproduces the method recorded in Abi’s saved notebook outputs. The final refit uses all 10,000 labeled passages and writes [submission.csv](abishek_ensemble/submissions/submission.csv) in sample-submission ID order.
+Run the final notebook from the same team directory:
+
+```bash
+cd abishek_ensemble && jupyter nbconvert --to notebook --execute --inplace ensemble_model.ipynb
+```
+
+The notebook evaluates the five-model weighted probability average on the fixed validation split (seed 42), refits on 10,000 labeled passages, and writes `submissions/submission.csv` inside `abishek_ensemble/`. The selected submission achieved validation AUROC 0.9888 (rounded) and public AUROC 0.92207.
 
 ## Experimental evidence
 
@@ -59,4 +63,6 @@ The final command produces the unlabeled-vocabulary candidate (reported public A
 
 ## AI assistance
 
-Jianing used Codex for implementation, debugging, experiment execution, interpreting results, and report editing. She edited and ran notebooks and submitted predictions. The team reported leaderboard scores and chose its submission. Saved predictions and article IDs were used to check validation metrics and submission order. See report Q6.3.
+- **Abishek Chozhan** used Claude (Anthropic) via Claude Code to discuss modeling options, write and debug notebook code, verify results and help draft report text. All code was run and all reported numbers were checked by the team.
+- **Liyan Yang** used ChatGPT to help write Random Forest code, analyze results and plan subsequent experiments. She compared lexical and style representations and evaluated alternative tree settings.
+- **Jianing Li** used Codex to help implement and debug SVM models, organize experiments, and draft and edit report text. She edited and ran notebooks in Jupyter and submitted predictions to Kaggle. Codex also executed the learning-curve, stacking-reconstruction and unlabeled-vocabulary experiments and helped check IDs and recompute metrics.
