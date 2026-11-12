@@ -19,4 +19,4 @@ Alma's original incremental commits and all RF comparisons are preserved in Git 
 
 ## November 10 — Team model selection
 
-The team selected Abishek’s stack_nbsvm_stylo.csv (public AUROC 0.92847). His separate rank-average experiment combined four NB-weighted logistic models and one stylometric gradient boosting model. Jianing evaluated five training sizes from 500 through 8,000. See the team README for results.
+The team selected Abishek’s submission.csv (prob_average_final.csv) (public AUROC 0.922). His separate previous rank-average experiment combined four NB-weighted logistic models and one stylometric gradient boosting model. Jianing evaluated five training sizes from 500 through 8,000. See the team README for results and the switch to the weighted probability average.
